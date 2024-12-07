@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BHM</title>
+  <style>
+    /* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+
+  background: linear-gradient(120deg, #00232f,#410b26, #ff0080);
+  color: white;
+  text-align: center;
+  
+}
+
+/* Header */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(0, 54, 72, 0.9);
+  padding: 10px 50px;
+  backdrop-filter: blur(10px);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+}
+
+.logo img {
+  width: 100px;
+  height: 100px;
+  transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+  transform: rotate(360deg) scale(1.1);
+}
+
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 40px;
+}
+
+nav ul li {
+  position: relative;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+  border-radius: 25px;
+}
+
+nav ul li::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #00a2ff;
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+nav ul li:hover::before {
+  transform: scaleX(1);
+}
+
+nav ul li:hover {
+  background: rgba(0, 162, 255, 0.1);
+  transform: translateY(-3px);
+  text-shadow: 0 0 10px rgba(0, 162, 255, 0.8);
+}
+
+/* Animation pour le menu actif */
+nav ul li.active {
+  background: rgba(0, 162, 255, 0.2);
+  color: #00a2ff;
+}
+
+/* Ajout d'un effet de pulse sur le logo */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(0, 162, 255, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 162, 255, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 162, 255, 0);
+  }
+}
+
+.logo {
+  position: relative;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Main Content */
+main {
+  margin-top: 100px;
+}
+
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 800px);
+  justify-content: center;
+  gap: 200px;
+  padding: 20px;
+  justify-items: center;
+}
+
+.image-grid img {
+  width: 275px;
+  height: 275px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+  direction: ltr;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+
+/* Style du footer */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(0, 54, 72, 0.9);
+  padding: 20px 0;
+  backdrop-filter: blur(5px);
+}
+
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.marquee-content {
+  display: inline-block;
+  animation: marquee 80s linear infinite;
+  font-size: 1.2rem;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0 20px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Animation de brillance */
+.marquee-content span {
+  display: inline-block;
+  margin: 0 20px;
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% {
+    text-shadow: 0 0 5px #fff,
+                 0 0 10px #fff,
+                 0 0 15px #00a2ff,
+                 0 0 20px #00a2ff;
+  }
+  50% {
+    text-shadow: 0 0 10px #fff,
+                 0 0 20px #fff,
+                 0 0 30px #00a2ff,
+                 0 0 40px #00a2ff;
+  }
+}
+
+/* Style pour les icônes sociales */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.social-icon i {
+  font-size: 20px;
+  color: #003648;
+  z-index: 1;
+}
+
+.social-icon:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px rgba(0, 162, 255, 0.5);
+}
+
+/* Effet d'onde */
+.wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23003648' fill-opacity='1' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,112C672,96,768,96,864,112C960,128,1056,160,1152,160C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E");
+  background-size: cover;
+  animation: waveAnimation 10s linear infinite;
+}
+
+@keyframes waveAnimation {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 1440px;
+  }
+}
+
+/* Animation pour les icônes au survol */
+.social-icon::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #00a2ff, transparent);
+  transform: scale(0);
+  transition: transform 0.5s ease;
+}
+
+.social-icon:hover::before {
+  transform: scale(2);
+}
+.main-content {
+  margin-top: 250px;
+  margin-bottom: 250px;
+}
+
+
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+  <header class="header-menu">
+    <div class="logo">
+      <img src="img/2d-removebg-preview__1_-removebg-preview.png" alt="Creeper Icon">
+    </div>
+    <nav class="nav-menu">
+      <ul>
+        <li class="active">Accueil</li>
+        <li>Services</li>
+        <li>Portfolio</li>
+        <li>Contact</li>
+      </ul>
+    </nav>
+  </header>
+  <main class="main-content">
+    <div class="image-grid">
+      <a href="tetris.html"><img src="img/rkab.jpg" alt="Person Image"></a>
+      <a href="snake.html"><img src="img/lf3a.jpg" alt="Person Image"></a>
+      <a href="pong.html"><img src="img/pong.jpg" alt="Person Image"></a>
+      <a href="chdni.html"><img src="img/chad.jpg" alt="Person Image"></a>
+      <a href="breakout.html"><img src="img/gg.jpg" alt="Person Image"></a  >
+      <a href="39al awlidi.html"><img src="img/cart.jpg" alt="Person Image"></a >
+    </div>
+  </main>
+  <footer>
+    <div class="wave"></div>
+    <div class="marquee-container">
+      <div class="marquee-content">
+        <span>🌟 Bienvenue sur notre site</span>
+        <span>✨ Découvrez nos créations</span>
+        <span>💫 Suivez-nous sur les réseaux</span>
+        <span>⭐ Contactez-nous pour plus d'informations</span>
+        <span>🌟 Des nouveautés chaque semaine HHH</span>
+      </div>
+    </div>
+    <div class="social-icons">
+      <div class="social-icon">
+        <i class="fab fa-facebook-f"></i>
+      </div>
+      <div class="social-icon">
+        <i class="fab fa-twitter"></i>
+      </div>
+      <div class="social-icon">
+        <i class="fab fa-instagram"></i>
+      </div>
+      <div class="social-icon">
+        <i class="fab fa-linkedin-in"></i>
+      </div>
+      <div class="social-icon">
+        <i class="fab fa-youtube"></i>
+      </div>
+    </div>
+  </footer>
+  <script>
+    const imageGrid = document.querySelector('.image-grid');
+    const images = document.querySelectorAll('.image-grid img');
+    let scrollPosition = imageGrid.scrollWidth;
+
+    // Animation pour chaque image
+    images.forEach(img => {
+      // Animation au survol
+      img.addEventListener('mouseenter', () => {
+        img.style.transform = `
+          scale(1.1) 
+          rotate(${Math.random() * 10 - 5}deg)
+          translateY(-20px)
+        `;
+      });
+
+      img.addEventListener('mouseleave', () => {
+        img.style.transform = 'scale(1) rotate(0deg) translateY(0)';
+      });
+
+      // Animation au clic
+      img.addEventListener('click', () => {
+        // Animation de rotation 360°
+        img.style.transform = 'scale(0.8) rotate(360deg)';
+        
+        setTimeout(() => {
+          img.style.transform = 'scale(1.2) rotate(0deg)';
+        }, 400);
+        
+        setTimeout(() => {
+          img.style.transform = 'scale(1) rotate(0deg)';
+        }, 800);
+      });
+    });
+
+    // Animation flottante continue
+    function floatingAnimation() {
+      images.forEach((img, index) => {
+        const time = Date.now() * 0.001 + index;
+        const yOffset = Math.sin(time) * 10;
+        
+        if (!img.matches(':hover')) {  // Applique seulement si pas de survol
+          img.style.transform = `translateY(${yOffset}px)`;
+        }
+      });
+      
+      requestAnimationFrame(floatingAnimation);
+    }
+
+    floatingAnimation();
+
+    // Défilement automatique
+    function autoScroll() {
+      scrollPosition -= 2;
+      
+      if (scrollPosition <= 0) {
+        scrollPosition = imageGrid.scrollWidth - imageGrid.clientWidth;
+      }
+      
+      imageGrid.scrollTo(scrollPosition, 0);
+      requestAnimationFrame(autoScroll);
+    }
+
+    autoScroll();
+
+    // Ajouter ce code pour dupliquer le contenu du marquee
+    document.addEventListener('DOMContentLoaded', () => {
+      const marqueeContent = document.querySelector('.marquee-content');
+      marqueeContent.innerHTML += marqueeContent.innerHTML;
+    });
+
+    // Ajouter ce code pour la gestion du menu actif
+    const menuItems = document.querySelectorAll('nav ul li');
+
+    menuItems.forEach(item => {
+      item.addEventListener('click', () => {
+        // Retirer la classe active de tous les éléments
+        menuItems.forEach(i => i.classList.remove('active'));
+        // Ajouter la classe active à l'élément cliqué
+        item.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

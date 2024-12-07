@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Memory Cards</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 100px;
+            max-width: 600px;
+            margin: 20px auto;
+            perspective: 1000px;
+        }
+
+        .card {
+            height: 120px;
+            position: relative;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transform: scale(1);
+            transition: transform 0.5s;
+        }
+
+        .card.flip {
+            transform: rotateY(180deg);
+        }
+
+        .card:active {
+            transform: scale(0.95);
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            border-radius: 10px;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+
+        .front {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            transform: rotateY(180deg);
+        }
+
+        .back {
+            background: linear-gradient(45deg, #4e54c8, #8f94fb);
+        }
+
+        .stats {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border: none;
+            margin-top: 40px;
+            border-radius: 25px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255,107,107,0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="stats">
+        <div>Moves: <span id="moves">0</span></div>
+        <div>Matches: <span id="matches">0</span>/6</div>
+    </div>
+
+    <div class="game-board" id="gameBoard"></div>
+
+    <div style="text-align: center">
+        <button onclick="startGame()">L3eb men jdid</button>
+    </div>
+
+    <script>
+        const emojis = ['🎮', '🎲', '🎯', '🎨', '🎭', '🎪'];
+        const gameBoard = document.getElementById('gameBoard');
+        let cards = [];
+        let flippedCards = [];
+        let moves = 0;
+        let matches = 0;
+
+        function createCard(emoji) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="front">${emoji}</div>
+                <div class="back">?</div>
+            `;
+            return card;
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function flipCard(card) {
+            if (flippedCards.length === 2) return;
+            if (card === flippedCards[0]) return;
+
+            card.classList.add('flip');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                
+                const front1 = flippedCards[0].querySelector('.front').textContent;
+                const front2 = flippedCards[1].querySelector('.front').textContent;
+
+                if (front1 === front2) {
+                    matches++;
+                    document.getElementById('matches').textContent = matches;
+                    flippedCards = [];
+                    
+                    if (matches === 6) {
+                        setTimeout(() => {
+                            alert(`Bravo! Rbe7ti f ${moves} moves!`);
+                        }, 500);
+                    }
+                } else {
+                    setTimeout(() => {
+                        flippedCards.forEach(card => card.classList.remove('flip'));
+                        flippedCards = [];
+                    }, 1000);
+                }
+            }
+        }
+
+        function startGame() {
+            gameBoard.innerHTML = '';
+            moves = 0;
+            matches = 0;
+            document.getElementById('moves').textContent = moves;
+            document.getElementById('matches').textContent = matches;
+            
+            const allEmojis = [...emojis, ...emojis];
+            const shuffledEmojis = shuffle(allEmojis);
+            
+            shuffledEmojis.forEach(emoji => {
+                const card = createCard(emoji);
+                card.addEventListener('click', () => flipCard(card));
+                gameBoard.appendChild(card);
+            });
+        }
+
+        startGame();
+    </script>
+</body>
+</html> 
